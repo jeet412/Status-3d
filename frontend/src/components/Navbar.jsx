@@ -1,16 +1,29 @@
 import { useState, useEffect } from 'react';
+import NavigationPanel from './NavigationPanel';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobile, setIsMobile] = useState(false);
+  const [activeNavPanel, setActiveNavPanel] = useState(null);
 
   const navLinks = [
     { label: 'Home', value: 'home' },
-    { label: 'Formals', value: 'formals', sublinks: ['Shirts', 'Trousers', 'Suits'] },
-    { label: 'Fabrics', value: 'fabrics', sublinks: ['Cotton', 'Linen', 'Wool'] },
+    { label: 'Formals', value: 'formals' },
+    { label: 'Fabrics', value: 'fabrics' },
     { label: 'Blog', value: 'blog' },
     { label: 'Contact', value: 'contact' },
+  ];
+
+  const secondNavLinks = [
+    'Holiday Gifting',
+    'New Arrivals',
+    'Best Sellers',
+    'Clothing',
+    'Tops & Sweaters',
+    'Pants & Jeans',
+    'Outerwear',
+    'Shoes & Bags',
   ];
 
   useEffect(() => {
@@ -19,17 +32,6 @@ const Navbar = () => {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const handleMainClick = (value, hasSublinks) => {
-    setActiveSection(prev =>
-      prev === value ? null : value
-    );
-
-    if (!hasSublinks && isMobile) {
-      setMenuOpen(false);
-      setActiveSection(null);
-    }
-  };
 
   const handleToggleMenu = () => {
     if (menuOpen) {
@@ -57,7 +59,7 @@ const Navbar = () => {
           {navLinks.map(link => (
             <button
               key={link.value}
-              onClick={() => handleMainClick(link.value, !!link.sublinks)}
+              onClick={() => setActiveSection(link.value)}
               className={`relative transition-all duration-300 ease-in-out ${
                 activeSection === link.value
                   ? 'underline underline-offset-4'
@@ -88,14 +90,14 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile navbar links (centered horizontally) */}
+      {/* Mobile navbar links */}
       {menuOpen && (
         <div className="md:hidden w-full border-t border-b border-gray-100 bg-white text-sm transition-all duration-300 ease-in-out animate-fade-in">
           <div className="flex justify-center gap-6 px-4 py-2 whitespace-nowrap">
             {navLinks.map(link => (
               <button
                 key={link.value}
-                onClick={() => handleMainClick(link.value, !!link.sublinks)}
+                onClick={() => setActiveSection(link.value)}
                 className={`transition-all duration-300 ease-in-out ${
                   activeSection === link.value
                     ? 'underline underline-offset-4'
@@ -109,26 +111,9 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Subnavbar */}
-      {(menuOpen || !isMobile) &&
-        activeSection &&
-        navLinks.find(link => link.value === activeSection)?.sublinks && (
-          <div className="border-t border-gray-300 w-full border-b border-gray-200 bg-white text-sm transition-opacity duration-300 ease-in-out animate-fade-in">
-            <div className="max-w-7xl mx-auto px-4 py-2 flex justify-center gap-6 overflow-x-auto whitespace-nowrap">
-              {navLinks
-                .find(link => link.value === activeSection)
-                .sublinks.map((sublink, idx) => (
-                  <a
-                    key={idx}
-                    href={`/${activeSection}/${sublink.toLowerCase()}`}
-                    className="hover:underline hover:underline-offset-4 transition-all duration-200"
-                  >
-                    {sublink}
-                  </a>
-              ))}
-            </div>
-          </div>
-        )}
+
+      {/* Navigation Panel */}
+      <NavigationPanel active={activeNavPanel} onClose={() => setActiveNavPanel(null)} />
     </header>
   );
 };

@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar';
+import SecondaryNavbar from '../components/SecondNavbar';
 import TopBar from '../components/TopBar';
 import HeroSection from '../components/HeroSection';
 import Footer from '../components/Footer';
@@ -12,7 +13,7 @@ const Home = () => {
     <div className="w-full overflow-x-hidden">
       <TopBar />
       <Navbar />
-      
+      <SecondaryNavbar />
       {/* If hero has full-width bg/image, keep it outside the container */}
       <HeroSection />
       <CategoryGrid />
