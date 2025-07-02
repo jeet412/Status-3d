@@ -5,7 +5,7 @@ const secondNavMap = {
   Home: ['Holiday Gifting', 'New Arrivals', 'Sale'],
   Formals: ['Shirts', 'Trousers', 'Suits'],
   Fabrics: ['Cotton', 'Linen', 'Wool'],
-  Contact: ['Support', 'Store Locator'],
+  Contact: [ 'Store Locator'],
 };
 
 const SecondNavbar = ({ primary }) => {
